@@ -1,5 +1,7 @@
 ---
 layout: post
+title: Npm dependencies explained
+keywords: npm, dependencies, devDependencies, peerDependencies, difference, package.json, javascript
 ---
 
 ## Hidden complexity of npm's dependencies
