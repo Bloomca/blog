@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why I created Redux-Tiles library to deal with Redux verbosity
+title: Why I created Redux-Tiles library
 keywords: react.js, react, redux, redux-tiles, server-side rendering, prefetch, javascript
 ---
 
@@ -50,6 +50,8 @@ You also get `dispatch` option (and I encourage to pass `actions` and `selectors
 Helpers are needed mostly to combine list of tiles, so they will be nested correctly (remember, we can specify arrays of arbitrary nesting in declaration) -- they will be available under the same nesting. Also, the easiest way to use is to just use `createEntities`, which will create you all needed entities. It is also possible to integrate it into existing project -- just pass namespace, under which you want to keep redux tiles inside state, as a second parameter to the `createEntities` or `createReducers`.
 
 Library provides you a middleware creator, which gets an object to be passed to all dispatched tiles' functions. Middleware is needed to deal with a function, which will be returned from an action -- and this is a precise description of [redux-thunk](https://github.com/gaearon/redux-thunk), and while it is a great library, it does not allow you to inject more middleware, which I'd recommend to do (to do DI). Also, usage of `createMiddleware` will give you a free caching of pending requests, so they will wait (the same promise), without additional requests.
+
+And finally, one of the biggest pain points of modern SPAs -- prefetching of data, here is solved via middleware. So, if you use `createMiddleware`, and instantiate store for each request in your Node.js application, you can dispatch all needed actions, and then [waitTiles](https://github.com/Bloomca/redux-tiles/blob/master/examples/hacker-news-api/__test__/app.spec.js#L14) function will return a promise, which will be resolved after everything will be fetched.
 
 Back to [examples](https://github.com/Bloomca/redux-tiles/tree/master/examples/hacker-news-api) from the beginning of the article, now it is the time to take a look how it is used. Here I specify redux tiles for HN API, with pretty agressive caching:
 <script src="https://gist.github.com/Bloomca/0942d38d9d366a9de0d84ca1141598b9.js"></script>
