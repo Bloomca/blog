@@ -6,6 +6,9 @@ keywords: react.js, react, redux, redux-tiles, server-side rendering, prefetch, 
 
 Recently I published [Redux-tiles library](https://github.com/Bloomca/redux-tiles), which itself is a pretty small library intended to fight the verbosity of original style Redux. Redux is a great library, but in it's raw state it actually often frustrates people (especially newcomers).
 
+This is an [example](https://github.com/Bloomca/redux-tiles/tree/master/examples/hacker-news-api) how it can be used inside a project, and this is the most important file, where we create all these redux entities:
+<script src="https://gist.github.com/Bloomca/0942d38d9d366a9de0d84ca1141598b9.js"></script>
+
 ## What is Redux?
 
 <img class="image" src="/assets/img/flux-diagram.png" />
