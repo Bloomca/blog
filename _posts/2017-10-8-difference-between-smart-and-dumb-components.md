@@ -8,9 +8,6 @@ In early days of single-page applications, we used to hardcode a lot of stuff, a
 [React](https://reactjs.org/) popularized [component approach](https://reactjs.org/docs/components-and-props.html), which means that we incapsulate all logic into separate components, and then compose them in declarative way. So, using JSX, we will have something like:
 
 ```js
-const code = `
-  curl ...
-`;
 const DescriptionSection = (
   <ShadowSection>
     <WelcomeMessage name={name} />
@@ -21,7 +18,7 @@ const DescriptionSection = (
 );
 ```
 
-THe beauty of the solution above starts to appear when you have to move this component a lot, or remove some pieces from it (or move part of this component to another). Basically, all sorts of possible business changes, which we face all the time in our frontend applications -- you know, pace has never been so fast.
+The beauty of the solution above starts to appear when you have to move this component a lot, or remove some pieces from it (or move part of this component to another). Basically, all sorts of possible business changes, which we face all the time in our frontend applications -- you know, pace has never been so fast.
 
 Also, because we need to somehow make these components flexible, we need to pass data to them, and here it becomes more complicated. Originally (and which is still true), React was standing only for "V" (view layer), so we had to deal with external state on our own. Also, there is a mechanism inside components called "state", which works, but does not really scale (you can do it, but general consensus is that there are easier ways). Soon after discovering all that issues, Facebook announced Flux architecture -- unidirection data flow, which was pretty different from usual two-way data binding at the moment in the industry.
 
