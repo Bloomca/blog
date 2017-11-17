@@ -8,7 +8,7 @@ Git is a very powerful tool, but we usually use only couple of commands from it 
 
 > I am not a git professional by any means, and my usage of git is for sure pretty simple and naïve compared to many other experienced engineers. There are likely some mistakes (or at least non-precise definitions), feel free to contact me at <a href="mailto:seva.zaikov@gmail.com">seva.zaikov@gmail.com</a>!
 
-## Basics
+## Short Overview
 
 Git is a [version control system](https://en.wikipedia.org/wiki/Version_control), which holds all information (both meta and actual data) inside internal blobs. These blobs are not huge, because every commit is not just a single blob, containing everything (unless it is a first commit in the repository), rather list of commits, which should be applied one by one -- these blobs contain only differences between commits!
 
