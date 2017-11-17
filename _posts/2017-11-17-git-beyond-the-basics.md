@@ -4,14 +4,19 @@ title: Git Beyond the Basics
 keywords: git, git workflow, git branches, git rebase, git interactive rebase, git cherry-pick, git history, git history rewrite, software development, programming
 ---
 
-I am not a git professional by any means, and my usage of git is for sure pretty primitive compared to many other experienced engineers. I would like to explain one step forward from the basics here -- how to rebase, how to cherry-pick commits from another branch and how to clean your pull request. Also, there are likely some mistakes (or at least non-precise definitions), feel free to contact me at <a href="mailto:seva.zaikov@gmail.com">seva.zaikov@gmail.com</a>!
+Git is a very powerful tool, but we usually use only couple of commands from it -- `git pull`, `git push`, `git checkout`, `git fetch` and couple more, but we are often intimidated by not so common operations. I would like to explain one step forward from the basics here -- what merging actually does, how to rebase, how to cherry-pick commits from another branch and how to clean your pull request. Most of these things rewrite the history, and might look scary because of that, but I hope this guide will help you to become more confident using git.
+
+> I am not a git professional by any means, and my usage of git is for sure pretty simple and naïve compared to many other experienced engineers. There are likely some mistakes (or at least non-precise definitions), feel free to contact me at <a href="mailto:seva.zaikov@gmail.com">seva.zaikov@gmail.com</a>!
 
 ## Basics
 
-I'll briefly overview git itself and how it works. So, git is a CVS, which holds all information inside blobs, and all commits are just differences between previous one. It means that in order to revert one commit back, we just need to remove all changes stored in the last commit. Same works for any number of commits, even up to the very first commit -- we can easily move back and forth by commit hashes.
+Git is a [version control system](https://en.wikipedia.org/wiki/Version_control), which holds all information (both meta and actual data) inside internal blobs. These blobs are not huge, because every commit is not just a single blob, containing everything (unless it is a first commit in the repository), rather list of commits, which should be applied one by one -- these blobs contain only differences between commits!
 
-Git supports branches, and it is very easy to use them, which is a big help for distributed development, when a lot of people work on independent branches, and sync only in the end, fixing conflicts in files, where same lines were changed. Branch itself is just
-a pointer to a commit's hash, so we can move them without any problems. It also means that when you remove the branch, it does not really mean that -- we removed the pointer, but commit still exists, and knowing the hash, we can set the same pointer back (or another pointer, for the new branch). Tags are also just pointers, and the single difference with branches is that they are not fluid -- we tag certain commit, and it sticks with it, and branch pointer automatically moves forward after we add a new commit.
+It also means that in order to revert one commit back, we just need to remove all changes stored in the last commit. Same works for any number of commits, even up to the very first commit -- we can easily move back and forth by commit hashes.
+
+> Git keeps all info inside `.git` directory, and you can actually explore it! You can parse blobs by yourself to see diffs; you can even apply changes manually there -- that is what git does internally.
+
+Git makes it very easy to create new branches, and it encourages to use them for literally everything. It is a big help for distributed development, when a lot of people work on independent branches, and sync only in the end, fixing conflicts in files, where exactly the same lines were changed. Branch itself is just a pointer to a commit's hash, so we can move them without any problems. It also means that when you remove the branch, it does not really mean that -- we removed the pointer, but commit still exists, and knowing the hash, we can set the same pointer back (or another pointer, for the new branch). Tags are also just pointers, and the single difference with branches is that they are not fluid -- we tag certain commit, and it sticks with it, and branch pointer automatically moves forward after we add a new commit.
 
 Because branches are just pointers to commits, it means that you can merge not with another branch, rather with a last commit from this branch, and it will be exactly the same thing!
 
@@ -21,23 +26,64 @@ I'd explain here only the situation when you have your branch with new commits, 
 
 ```sh
 git checkout master
+# Switched to branch 'master'
 git merge feature/my-awesome-feature
+# Updating 49fa574..5ec9036
+# Fast-forward
 ```
 
 After that git will offer you to create a new commit with default merging message. If it is possible to fast-forward (so no other commits were introduced in the target branch), no new commit will be created (it is a default behaviour). However, you can enforce to create a merge commit anyway (it is a default behaviour of github, for instance), you just need to pass `--no-ff` argument.
 
 ```sh
 git checkout master
+# Switched to branch 'master'
 git merge --no-ff feature/my-awesome-feature
+
+# =====================
+# Our editor will automatically open:
+
+Merge branch 'feature/my-awesome-feature'
+
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
 ```
 
 Also, because we introduce a new commit, it means that we can affect not only a commit message, but actual content of the commit. In order to do that, you have to add `--no-commit` flag, which will stage everything, but will not create a commit yet -- you can look around, run your code, change some files, and commit everything after it:
 
 ```sh
 git checkout master
-git merge --no-commit feature/my-awesome-feature
-# change files, fix conflicts, etc
-git commit # regular commit, message will be prefilled
+# Switched to branch 'master'
+# you don't need --no-ff flag, if there are new commits in master
+# otherwise, it will be fast-forwarded
+git merge --no-commit --no-ff feature/my-awesome-feature
+
+# =====================
+# now we have all changes staged, but not commited
+# we can change files, fix conflicts, etc
+git commit # regular commit, if no -m option, message will be prefilled
+
+# =====================
+# Our editor will automatically open:
+
+Merge branch 'feature/my-awesome-feature'
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#       .git/MERGE_HEAD
+# and try again.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#       new file:   new-awesome-file
+#
 ```
 
 If you have a conflict, git will behave similarly to `--no-commit` option -- it will stage everything, mark all files where conflicts appear, and leave you in this state. You have to resolve all conflicts, stage these files, and commit it as a normal commit (message will be prefilled in your editor as well). Interesting that you can do it using both approaches -- you can merge target branch to your current branch and resolve all conflicts there, or do it in the target one. Since all changes are usually made using mechanism of [Pull Requests](https://help.github.com/articles/about-pull-requests/) on the service like Github or Bitbucket, the first approach is the most common. These services actually prohibit you to merge to the arget branch, until you resolve all conflicts!
@@ -50,9 +96,40 @@ Another useful flag while merging is a `--squash` option. It allows you to squas
 
 ```sh
 git checkout master
+# Switched to branch 'master'
 git merge --squash feature/my-awesome-feature
-# change files, fix conflicts, etc
+# Updating 27fc6c4..fbe93f3
+
+# =====================
+# now we have all changes staged, but not commited
+# also, no new commits were introduced - we have all changes
+# staged, and all commit messages will be reflected in editor
 git commit # single new commit, message will be prefilled
+
+# =====================
+# Our editor will automatically open:
+
+Squashed commit of the following:
+
+commit fbe93f3c45781e9dd12aab59728576fa0c0489fa
+Author: Vsevolod Zaikov <seva.zaikov@gmail.com>
+Date:   Fri Nov 17 18:01:55 2017 +0100
+
+    add tests for email service
+
+commit 421e83d1a5b4c0eb56fb1690916750f7f1e12fec
+Author: Vsevolod Zaikov <seva.zaikov@gmail.com>
+Date:   Fri Nov 17 18:01:20 2017 +0100
+
+    add email service
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Changes to be committed:
+#       modified:   email-service
+#       modified:   email-service.spec
 ```
 
 > prefilled message for commit will contain all other commit messages in the description, so you can find them later
@@ -68,9 +145,11 @@ So far so good, that was pretty much basic stuff -- I think this is how majority
 
 ```sh
 git checkout -b feature/my-new-feature
-git add .... # stage your changed
-git commit # add your new commits
-git merge origin/master # merge with remote master
+# Switched to a new branch 'feature/my-new-feature'
+
+git add . # stage everything
+git commit -m "add possibility to automatically retry AJAX calls"
+git merge origin/master # merge with remote master if needed
 git push # push all changed, and merge it after code review and CI
 ```
 
@@ -118,7 +197,7 @@ It will revert everything to your original branch, before you started to rebase,
 Rebasing applies all your commits one-by-one, and it changes the history in the sense that because they have different ancestor now, commit hash is different now, so all your commits will have different hashes. Effectively it means that your branches have diverged, and now you can do two things:
 
 - remove remote branch and push your rebased one
-- push your rebased version with [force]
+- push your rebased version with [force](https://git-scm.com/docs/git-push#git-push---force)
 
 Removing involves too much hassle, so force push is a common approach:
 
@@ -142,44 +221,79 @@ In the previous section we covered how to rebase target branch, so all our commi
 We get into interactive rebase mode just adding `-i` flag, and we could do it in the previous chapter:
 
 ```sh
+# we can rebase using local master, but then we
+# need to pull all changes first
 git rebase -i origin/master
 ```
 
-However, interactive rebase usually is used for changing only our branch, so I will explain how to do so using this task. Let's imagine we have our branch with 6 commits, which we want to combine together before merging into master. So, in order to start interactive rebase of our branch, we need to pick the first commit, which we want to remain untouched (the last one in target branch usually). We can provide a hash, but we can just use git's references:
+However, interactive rebase usually is used for changing only our branch, so I will explain how to do so using this task. Let's imagine we have our branch with 4 commits, which we want to combine together before merging into master. So, in order to start interactive rebase of our branch, we need to pick the first commit, which we want to remain untouched (the last one in target branch usually). We can provide a hash, but we can just use git's references:
 
 ```sh
-git rebase -i HEAD~6 # get commit which is 6 commits
-# back from the last in the current branch
+git rebase -i HEAD~4 # get commit which is 4 commits
+# behind from the last in the current branch
 
-git rebase -i ac7xq98 # will work the same way
+git rebase -i ac7xq98 # will work the same way, if
+# ac7xq98 is a commit before 4 our new commits
+
+# =====================
+# Our editor will automatically open:
+
+pick 9dcb655 add support for deep links
+pick 7536a6b extend support for android integration
+pick 01e8299 fix failing tests
+pick ef5a6ae changes after code review
+
+# Rebase 5060ce6..ef5a6ae onto 5060ce6 (4 commands)
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
 ```
 
-??? PICTURE WITH REBASE
+As you can see, git provides you a quick description to all possible options, and they are pretty self-explanatory. In the editor we need to replace `pick` with options we want to apply. You can use shorthand versions as well, with just one letter, there is no difference at all. So, let's work on our branch and change it:
 
-As you can see, git provides you a quick description to all possible options. I'll list them here as well:
+```sh
+reword 9dcb655 add support for deep links
+squash 7536a6b extend support for android integration
+edit 01e8299 fix failing tests
+fixup ef5a6ae changes after code review
+```
 
-- pick (p) -- get commit as it is
-- reword (r) -- get commit, but change the message
-- edit (e) -- get commit, but stop there, so we can add/remove files, and reword commit message as well
-- squash (s)
+So, we blend second commit into the first one, but saving its messaging in description, and fourth commit into the third, throwing message away.
 
-In the editor we need to replace `pick` with options we want to apply. You can use shorthand versions as well, with just one letter, there is no difference at all. So, let's work on our branch and change it:
+> we did not remove (or commented out) any line, doing that would result in losing actual changes - we are going to apply commit diffs one by one, so any removed line means this commit will be lost.
 
-??? PICTURE WITH SELECTED OPTIONS
-
-I chose ........
+However, we chose `edit` option for the third commit - it is a similar behaviour to `--no-commit` option for merging strategy: we stage all the changes, and when we commit, message will be prefilled, but we can play around and change something, if we want to.
 
 
 ```sh
-git rebase -i HEAD~6 # start to rebase our branch
+git rebase -i HEAD~4 # start to rebase our branch
 # chose as on the picture
+# editor will be opened immediately to change first commit
+
+# now we on the 3rd step. we can play around, change files,
+# add new ones, etc. As soon as we ready to continue:
 git rebase --continue
-# changed commit message for the first commit
-# changed commit message for the third commit
+# change commit message for the third commit
+
+# =====================
+# Successfully rebased and updated refs/heads/master.
+
 # done!
 ```
-
-??? PICTURE WITH GIT LOG AFTER CHANGING
 
 We rebased master to our branch, and now new transformed 6 commits in our branch to just 3, more meaningful and not so focused on implementation details. Now we can merge it to the master and have better history in the future, so somebody who will support it can say thanks to us!
 
