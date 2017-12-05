@@ -286,7 +286,7 @@ Streams are better and worse than promises/generators. Better if you already hav
 
 I am not a big specialist in using streams, but using them for a bit, I can say that you should either use them for all async stuff, or for none. So, in case you are already are using them, this question should not be a hard one for you, since it was a long time well-known feature of stream libraries.
 
-Couple of links for streams cancellation:
+As I mentioned, I don't have enough experience with streams to give solutions using them, so I'll just put couple of links for streams cancellation:
 
 - [github issue explanation](https://github.com/Reactive-Extensions/RxJS/issues/817#issuecomment-122729155)
 - [article about take* methods](https://medium.com/@benlesh/rxjs-dont-unsubscribe-6753ed4fda87)
