@@ -33,7 +33,6 @@ function updateUser(cb) {
     });
   });
 }
-
 ```
 
 As you can see, we nest several calls, and in case we want to change some calls order, or we want to make several calls in parallel, we will have hard time managing this code.
@@ -113,7 +112,7 @@ function updateUser() {
     reject = rejectFromPromise;
   });
   
-  fetchData().
+  fetchData()
     .then(wrapWithCancel(updateUserData))
     .then(wrapWithCancel(updateUserAddress))
     .then(wrapWithCancel(updateMarketingData))
@@ -155,8 +154,14 @@ Generators deserve their own article, so I won't cover the basics, and just impl
 // and provide cancellation method
 function runWithCancel(fn, ...args) {
   const gen = fn(...args);
-  let cancelled, reject;
-  const promise = new Promise((resolve, reject) => {
+  let cancelled, cancel;
+  const promise = new Promise((resolve, promiseReject) => {
+    // define cancel function to return it from our fn
+    cancel = () => {
+      cancelled = true;
+      reject({ reason: 'cancelled' });
+    };
+    
     let value;
 
     onFulfilled();
@@ -185,7 +190,7 @@ function runWithCancel(fn, ...args) {
     }
 
     function next({ done, value }) {
-      if (ret.done) {
+      if (done) {
         return resolve(value);
       }
       // we assume we always receive promises, so no type checks
@@ -193,13 +198,7 @@ function runWithCancel(fn, ...args) {
     }
   });
   
-  return {
-    promise,
-    cancel: () => {
-      cancelled = true;
-      reject({ reason: 'cancelled' });
-    }
-  };
+  return { promise, cancel };
 }
 ```
 
@@ -248,10 +247,10 @@ async function updateUser(token) {
     cancelled = true;
   };
 
-  const data = await wrapWithCancel(fetchData());
-  const userData = await wrapWithCancel(updateUserData(data));
-  const userAddress = await wrapWithCancel(updateUserAddress(userData));
-  const marketingData = await wrapWithCancel(updateMarketingData(userAddress));
+  const data = await wrapWithCancel(fetchData)();
+  const userData = await wrapWithCancel(updateUserData)(data);
+  const userAddress = await wrapWithCancel(updateUserAddress)(userData);
+  const marketingData = await wrapWithCancel(updateMarketingData)(userAddress);
 
   // because we've wrapped all functions, in case of cancellations
   // we'll just fall through to this point, without calling any of
