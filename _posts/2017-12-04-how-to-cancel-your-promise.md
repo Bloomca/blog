@@ -56,7 +56,7 @@ Not only it is much more concise and readable, but it makes it very easy to swit
 
 But, as soon it [was discovered](https://stackoverflow.com/questions/30233302/promise-is-it-possible-to-force-cancel-a-promise), you can not cancel a promise, and this is a real problem. Sometimes you _have_ to cancel something, and you need to build a workaround – the amount of work depends how often do you need this functionality.
 
-### Use Bluebird
+## Use Bluebird
 
 [Bluebird](http://bluebirdjs.com/docs/getting-started.html) is a promise library, which is fully compliant with native promises, but which also adds couple of helpful functions to Promise.prototype. We won't cover them here, except for the [cancel](http://bluebirdjs.com/docs/api/cancellation.html) method, which does partially what we want from it – it allows us to have custom logic in case we want to cancel our promise using `promise.cancel` (Why partially? Because it is verbose and not generic).
 
@@ -101,7 +101,7 @@ promise.cancel(); // user will be updated any way
 
 As you can see, we added a lot to our previous clean example. Unfortunately, there is no other way, since we can't just stop a random promise chain from executing (if we want, we'll need to wrap it into another function), so we need to touch all function, wrapping into cancelling token aware executor.
 
-### Pure Promises
+## Pure Promises
 
 Tecnique above is not really special about bluebird, it is more about interface – you can implement your own version of cancellation, at the cost of additional property/variable. Usually this approached is called `cancellationToken`, and in the essense, it is almost the same as the previous one, but instead of having this function on the `Promise.prototype.cancel`, we instantiate it in a different object – we can return an object with `cancel` property, or we can accept additional parameter, an object, where we will add a property.
 
@@ -144,7 +144,7 @@ cancel(); // user will be updated any way
 
 This is a little bit more verbose than a previous solution, but it does exactly the same, and in case you don't have Bluebird (or just don't want to use non-standard methods on promises), it is a viable solution. As you can see, we changed signature – now we return object instead of a promise, but in fact we can just pass a parameter to the function, an object, and attach `cancel` method on it (or monkey-patch instance of Promise, but it can create you problems later). If you have this requirement only in couple places, it is a good solution.
 
-### Switch to generators
+## Switch to generators
 
 Generators are another feature of ES2015, but they are not that popular for some reasons. Think about it, though, before adopting them -- will it be very confusing for your newcomers or you can deal with it? Also, they exist in some other languages, like [Python](https://wiki.python.org/moin/Generators), so it might be easy for you as a team to go with this solution.
 
@@ -231,7 +231,7 @@ As you can see, the interface remained the same, but now we have the option to c
 
 Generators are, I guess, the most extensible option, because you do literally everything you want -- in case of some condition you can pause, wait, retry, or just run another generator. However, I have not seen them very often in JavaScript code, so you should think about adoption and cognitive load -- do you really have a lot of use-cases for them? If yes, then it is a very good solution and you'll likely thank yourself in the future.
 
-### Note on async/await
+## Note on async/await
 
 In the version of [ES2017](https://tc39.github.io/ecma262/2017/#sec-async-function-definitions) async/await were adopted, and you can use them without any flags in Node.js starting from the [version 7.6](https://www.infoq.com/news/2017/02/node-76-async-await).
 Unfortunately, there is nothing to support cancellation, and since async functions return promise implicitly, we can't really affect it (attach a property, or return something else), only resolved/rejected values. It means that in order to make our function cancellable, we'll need to pass a token object, and wrap each call in our famous wrapper:
@@ -280,7 +280,7 @@ token.cancel(); // user will be updated any way
 
 It is very similar solution, but because we don't reject directly in `cancel` method, it might confuse a reader. On the other side, it is a standard feature of the language now, it has very convenient syntax, it allows you to use results of previous calls in the following (so problem of promise chaining is solved here), and has very clear and intuitive errors handling syntax via `try/catch`. So if cancellation does not bother you (or you are fine to use this way to cancel something), then this feature is definitely a superior way to write async code in modern JavaScript.
 
-### Use streams (like RxJS)
+## Use streams (like RxJS)
 
 Streams are completely different concept, but they are actually widespread [not only in JavaScript](http://reactivex.io/), so you might consider it as a platform-independent pattern.
 Streams are better and worse than promises/generators. Better if you already have them and handle some (or maybe all) async logic using them, and worse if you don't, because it is absolutely different approach.
@@ -292,7 +292,7 @@ Couple of links for streams cancellation:
 - [github issue explanation](https://github.com/Reactive-Extensions/RxJS/issues/817#issuecomment-122729155)
 - [article about take* methods](https://medium.com/@benlesh/rxjs-dont-unsubscribe-6753ed4fda87)
 
-### Accept it
+## Accept it
 
 Things are going to the right direction -- fetch is going to get [abort](https://github.com/whatwg/fetch/issues/447) method, and cancellation is being under hot discussion for a long time. Will it result in some sort of cancellation? Maybe yes, maybe not. But also, cancellation is not that crucial for a lot of applications -- yes, you can make some additional requests, but it is a pretty rare case to have more than several consequent requests. Also, if it happens once or twice, you can just workaround those specific functions using the extended example from the beginning.
 But in case there are a lot of such cases in your application, consider something from the listed above.
