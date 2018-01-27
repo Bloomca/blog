@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Most Clever Line of JavaScript
-keywords: javascript, javascript quirks, javascript snippet, javascript prototypes, javascript, javascript call, javascript this
+keywords: javascript, javascript quirks, seva zaikov, bloomca, javascript snippet, javascript prototypes, javascript, javascript call, javascript this
 ---
 
 Recently [my friend](https://twitter.com/vedroarbuzov) sent me a very interesting JS snippet, which he found in one [open-source library](https://github.com/pelias/openstreetmap/blob/313f208ea323232919e42bf88871d8e19ddacec3/stream/address_extractor.js#L54):

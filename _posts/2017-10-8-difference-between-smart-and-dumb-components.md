@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Difference between smart and dumb components in React
-keywords: javascript, react, redux, components, smart components, dumb components
+keywords: javascript, react, redux, seva zaikov, bloomca, components, smart components, dumb components
 ---
 
 In early days of single-page applications, we used to hardcode a lot of stuff, and very often we ended up with a lot of chunks of code, which did not make a lot of sense outside of their page. In other words, very often code was tighly coupled. For instance, in Angular 1, default behaviour of creating new scope with parent scope as a prototype encouraged code, there we rely on this feature, and this made later reuse very hard.

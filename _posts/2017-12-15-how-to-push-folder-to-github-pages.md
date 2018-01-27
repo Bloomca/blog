@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to Push a Folder to Github Pages
-keywords: deploy, github pages, github, deploy to github pages
+keywords: deploy, github pages, github, seva zaikov, bloomca, deploy to github pages
 ---
 
 Github pages allow you to host your static applications from their CDN. This is a nice and very convenient way to serve documentation, example application, or just some parts of your code. However, it requires you to have a separate branch `gh-pages`, where you need to put `index.html` to the top level (so, no nested directories). Manual approach to this is pretty annoying, and here I would like to share an easy way to upload new versions in one command. There are other ways (for example, [using subtree](https://gist.github.com/cobyism/4730490)), of course, I just find this one easier, since I have to add only one command for deployment.

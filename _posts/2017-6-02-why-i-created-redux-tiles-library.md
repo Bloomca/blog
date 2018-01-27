@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Why I created Redux-Tiles library
-keywords: react.js, react, redux, redux-tiles, server-side rendering, prefetch, javascript
+keywords: react.js, react, redux, redux-tiles, seva zaikov, bloomca, server-side rendering, prefetch, javascript
 ---
 
 Recently I published [Redux-tiles library](https://github.com/Bloomca/redux-tiles), which itself is a pretty small library intended to fight the verbosity of original style Redux. If you are just interested in code, feel free to take a look at [examples](https://github.com/Bloomca/redux-tiles/tree/master/examples), otherwise let's go slowly.

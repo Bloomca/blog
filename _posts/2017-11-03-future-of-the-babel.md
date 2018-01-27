@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Future of the Babel.js
-keywords: javascript, babel, react, JSX, ES2015, ES6, modern javascript, transpilation, future of javascript, ECMAScript, TC39
+keywords: javascript, babel, react, JSX, seva zaikov, bloomca, ES2015, ES6, modern javascript, transpilation, future of javascript, ECMAScript, TC39
 ---
 
 JavaScript was originally added to make possible simple animations and effects. Since the beginning, browsers added a lot of APIs (the biggest breakthrough was introducing of [AJAX](https://developer.mozilla.org/en-US/docs/AJAX)), and nowadays we can make pretty powerful applications, which will be cross-platform out of the box. The latter advantage is so huge, that nowadays almost everybody targets web, since standartisation worked out pretty well, and websites look and behave exactly the same, no matter which platform you use.

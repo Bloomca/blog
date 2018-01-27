@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Business metrics for libraries
-keywords: javascript, libraries, frameworks, react, angular, clojurescript, elm, business, refactoring
+keywords: javascript, libraries, frameworks, seva zaikov, bloomca, react, angular, clojurescript, elm, business, refactoring
 ---
 
 # Exciting New World

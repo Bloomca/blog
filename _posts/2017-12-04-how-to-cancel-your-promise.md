@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to Cancel Your Promise
-keywords: javascript, promise, cancel promises, ES2015, ES6, async/await, modern javascript, generators, iterators
+keywords: javascript, promise, cancel promises, seva zaikov, bloomca, ES2015, ES6, async/await, modern javascript, generators, iterators
 ---
 
 In ES2015, new version of EcmaScript, standart of JavaScript, we got new asynchronous primitive [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). It is a very powerful concept, which allows us to avoid notoriously famous [callback hell](http://callbackhell.com/).

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: State of the art in CSS
-keywords: css, javascript, stylesheet, css-in-js, css-modules, webpack, react, sass, less, styled-components, aphrodite, glamour, BEM, Atomic CSS, SMACSS, OOCSS, Radium
+keywords: css, javascript, stylesheet, seva zaikov, bloomca, css-in-js, css-modules, webpack, react, sass, less, styled-components, aphrodite, glamour, BEM, Atomic CSS, SMACSS, OOCSS, Radium
 ---
 
 > This article touches on the latest trends in CSS for big web applications (usually [SPA](https://en.wikipedia.org/wiki/Single-page_application)). I don't try to question whether it is the right or wrong direction, rather try to list all of them.

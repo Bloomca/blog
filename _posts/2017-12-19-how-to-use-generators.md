@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to Use Generators in JavaScript
-keywords: javascript, generators, promise, async, cancel promise, pause, resume
+keywords: javascript, generators, promise, seva zaikov, bloomca, async, cancel promise, pause, resume
 ---
 
 Generators are a very powerful concept, but it is not used that often (see the twitter poll!). Why is it so? They are more sophisticated than async/await, not so easy to debug (mostly back to the old days), and people in general like async/await more, even despite the fact that we can achieve similar experience in a really easy way.

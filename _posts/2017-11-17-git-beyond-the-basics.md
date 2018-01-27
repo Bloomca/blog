@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Git Beyond the Basics
-keywords: git, git workflow, git branches, git rebase, git interactive rebase, git cherry-pick, git history, git history rewrite, software development, programming
+keywords: git, git workflow, git branches, git rebase, seva zaikov, bloomca, git interactive rebase, git cherry-pick, git history, git history rewrite, software development, programming
 ---
 
 Git is a very powerful tool, but we usually use only couple of commands from it -- `git pull`, `git push`, `git checkout`, `git fetch` and couple more, but we are often intimidated by not so common operations. I would like to explain one step forward from the basics here -- what merging actually does, how to rebase, how to cherry-pick commits from another branch and how to clean your pull request. Most of these things rewrite the history, and might look scary because of that, but I hope this guide will help you to become more confident using git.

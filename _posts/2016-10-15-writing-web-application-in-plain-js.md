@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Creating web application in plain javascript
-keywords: vanilla.js, javascript, SPA, web application, frameworks, software development
+keywords: vanilla.js, javascript, SPA, seva zaikov, bloomca, web application, frameworks, software development
 ---
 
 ## JS fatigue

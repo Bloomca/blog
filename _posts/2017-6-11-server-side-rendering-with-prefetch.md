@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Server Side Rendering with Prefetch
-keywords: react.js, react, redux, server-side rendering, prefetch, javascript
+keywords: react.js, react, redux, server-side rendering, seva zaikov, bloomca, prefetch, javascript
 ---
 
 ## What is a server-side rendering
