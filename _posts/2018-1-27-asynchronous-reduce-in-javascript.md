@@ -6,7 +6,7 @@ keywords: javascript, reduce, fold, asynchronous, seva zaikov, bloomca, promises
 
 Reduce is a very powerful concept, coming from the functional programming (also known as `fold`), which allows to build any other iteration function – `sum`, `product`, `map`, `filter` and so on. However, how can we achieve asynchronous reduce, so requests are executed consecutively, so we can, for example, use previous results in the future calls?
 
-> In our example, I won't use previous result, but rely on the fact that we need to execute this requests in this specific order
+> In our example, I won't use previous result, but rely on the fact that we need to execute these requests in this specific order
 
 Let's start with a naïve implementation, using just normal iteration:
 
