@@ -265,3 +265,14 @@ sup {
   vertical-align: super;
   font-size: smaller;
 }
+
+ul {
+  list-style: disc;
+  margin: 0 0 1.2em 2.4em;
+  padding: 0;
+}
+
+li {
+  margin: 5px 0 15px 0;
+  line-height: 1.584;
+}
