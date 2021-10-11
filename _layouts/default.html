@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.data.theme.name }} - {{ page.title }}</title>
+  <meta name="author" content="{{ site.data.theme.name }}" />
+  <meta name="description" content="The blog of {{ site.data.theme.name }}" />
+  <meta name="keywords" content="{{ page.keywords }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}" />
+
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic|PT+Sans+Caption:700,400|Source+Sans+Pro:400|Raleway:300" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.data.theme.name }}" href="{{site.url}}/atom.xml" />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@blooomca">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="Blog about programming">
+  <meta name="twitter:image" content="http://www.gravatar.com/avatar/{{ site.data.theme.social.gravatar }}?s=200">
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+</head>
+<body>
+  <div>
+    {% include navigation.html %}
+  </div>
+  {% if page.url == '/about' or page.url == '/about.html' %}
+  <div class="content-wrapper wide">
+  {% else %}
+    <div class="content-wrapper">
+  {% endif %}
+    {{ content }}
+  </div>
+  <div class="footer">
+    {% include footer.html %}
+  </div>
+
+  {% include analytics.html %}
+</body>
+</html>
