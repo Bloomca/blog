@@ -127,12 +127,12 @@ This way we pass correctly sorted IDs, and individual tasks will re-render, with
 
 Optimistic updates are great, they give immediate feedback to the user, but they have 2 potential re-rendering problems. First is the moment of the optimistic update. Usually we dispatch an action, a reducer runs and returns a new store, and our components update. The problem is related to the previous point, where I showed that in case of a big list, it can have some performance implications.
 
-However, be aware that often there are 2 re-renders. While the first happens immediately, the second usually occurs when we receive a response from the server, because often we just replace a local object with the one coming from the backend. Often we can't do much about it, as there might be some metadata changes (like `updated_at` field, etc), but if you can do it, a deep comparison between objects can help.
+However, be aware that often there are 2 re-renders. While the first happens immediately, the second usually occurs when we receive a response from the server, because often we just replace a local object with the one coming from the backend. Often we can't do much about it, as there might be some metadata changes (like `updated_at` field, etc), but if you can do it, a deep comparison between objects before overwriting previous object in your Redux store can show that the value is the same and there is no need to change the store, the result DOM won't change.
 
 
 ## Lots of data
 
-Sometimes you have a lot of data. Like a lot. And at that points selectors stop being free on slower devices. Memoization definitely helps, but it often is limited if you need several parameters for your selector, you'll often have to do full calculation at the first render of the component. To avoid that, consider denormalization: it has higher maintainence cost, but will help you to speed your application performance.
+Sometimes you have a lot of data. Like _a lot_. At that point selectors stop being cheap on slower devices. Memoization definitely helps, but it often is limited if you need several parameters for your selector, you'll often have to do full calculation at the first render of relevant components. To avoid that, consider denormalization: it has higher maintenance cost and more room for errors compared to just selecting all needed data, but will help you to speed your application performance.
 
 {% highlight ts linenos=table %}
 // instead of flat structure:
