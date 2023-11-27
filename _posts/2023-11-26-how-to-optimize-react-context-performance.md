@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Don’t Use React Context for Anything Complex
-keywords: performance, react, javascript, react context, react performance, performance tips
-excerpt: "Avoid using React Context if you need to store and update more than 1 property"
+title: How to Optimize React Context Performance
+keywords: performance, react, javascript, react context, react performance, performance tips, zustand
+excerpt: "Avoid using React Context if you need to store and update more than 1 property, and try to split all Context data into individual Providers"
 ---
 
 [React Context](https://react.dev/reference/react/createContext) is a great API to avoid prop-drilling or if you need a simple way to have access to some global app data in any component, but don’t want to use often recommended solutions like [Redux](https://redux.js.org/) or [Mobx](https://mobx.js.org/README.html), because they, being good scalable libraries, advocate for proper architecture and to separate all files properly, and that is a big daunting task for something small.
