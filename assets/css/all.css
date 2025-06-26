@@ -73,7 +73,7 @@ td {
 body {
   color: #000;
   background: #fff;
-  font-family: 'Lora', serif;
+  font-family: system-ui,"Segoe UI",Roboto,Noto,Oxygen-Sans,Ubuntu;
   line-height: 1.2em;
   font-size: 16px;
 }
