@@ -592,3 +592,13 @@ ol {
 strong {
   font-weight: 700;
 }
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+  flex-grow: 1;
+}
