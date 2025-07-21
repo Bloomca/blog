@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Custom Protocols in Electron apps
-keywords: Electron.js, Electron, custom protocols, protocol handlers, URL schemes
+title: Custom Protocols and Deeplinking in Electron apps
+keywords: Electron.js, Electron, custom protocols, protocol handlers, URL schemes, Deeplinking
 excerpt: "You can register your app with a custom protocol and call from other places."
 ---
 
