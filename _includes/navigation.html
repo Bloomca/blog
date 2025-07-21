@@ -13,6 +13,13 @@
   {% endif %}
     articles
   </a>
+  {% if page.url == '/electron' or page.url == '/electron.html' %}
+    <a href="/electron" class="active">
+  {% else %}
+    <a href="/electron">
+  {% endif %}
+    Electron
+  </a>
   <!-- {% if page.url == '/moocs' or page.url == '/moocs.html' %}
   <a href="/moocs" class="active">
   {% else %}
