@@ -62,8 +62,6 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void updateCounter();
 
 HWND counterHandle;
-HWND upButtonHandle;
-HWND downButtonHandle;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nCmdShow) {
     MSG msg;
@@ -93,11 +91,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
                 125, 20, 120, 60, 
                 hwnd, (HMENU) 1, NULL, NULL);
 
-            upButtonHandle = CreateWindowW(L"Button", L"+",
+            CreateWindowW(L"Button", L"+",
                 WS_VISIBLE | WS_CHILD ,
                 20, 80, 150, 25, hwnd, (HMENU) ID_BTN_UP, NULL, NULL);
 
-            downButtonHandle = CreateWindowW(L"Button", L"-",
+            CreateWindowW(L"Button", L"-",
                 WS_VISIBLE | WS_CHILD ,
                 190, 80, 150, 25, hwnd, (HMENU) ID_BTN_DOWN, NULL, NULL);
 
