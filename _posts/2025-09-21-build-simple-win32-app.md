@@ -87,9 +87,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLin
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    static HWND hBtnStart, hBtnStop;
-    static HFONT hFont;
-
     switch (msg) {
         case WM_CREATE:
             counterHandle = CreateWindowW(L"Static", L"0", WS_CHILD | WS_VISIBLE | SS_LEFT,
