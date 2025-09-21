@@ -2,30 +2,30 @@
 layout: post
 title: How audio CDs get metadata
 keywords: audio CD, metadata, MusicBrainz, Rust, FLAC, Vorbis comment, CoverArtArchive
-excerpt: "Metadata for music is a joint effort."
+excerpt: "Metadata for music is a community effort."
 ---
 
-In my [previous article](/2025/08/31/how-to-read-audio-cd) I explained how to read Table of Contents and raw track data from an audio CD. I also mentioned that it is possible to get some data using [CD-TEXT](https://en.wikipedia.org/wiki/CD-Text) command, it only gives you limited information and is not guaranteed.
+In my [previous article](/2025/08/31/how-to-read-audio-cd) I explained how to read Table of Contents and raw track data from an audio CD. I also mentioned that it is possible to get some data using [CD-TEXT](https://en.wikipedia.org/wiki/CD-Text) command, but it only gives you limited information and is not guaranteed.
 
-For a more comprehensive dataset, you need to use some sort of database, like [MusicBrainz](https://musicbrainz.org/). To quote them:
+For a more comprehensive dataset, you need to use some sort of database, like [MusicBrainz](https://musicbrainz.org/). To quote their front page:
 
 > MusicBrainz is an open music encyclopedia that collects music metadata and makes it available to the public.
 > MusicBrainz aims to be:
 > 1. The ultimate source of music information by allowing anyone to contribute and releasing the [data](https://musicbrainz.org/doc/MusicBrainz_Database) under [open licenses](https://musicbrainz.org/doc/About/Data_License).
 > 2. The universal lingua franca for music by providing a reliable and unambiguous form of [music identification](https://musicbrainz.org/doc/MusicBrainz_Identifier), enabling both people and machines to have meaningful conversations about music.
 
-It is completely free to look up any information using their website, however, if you want to access it programmatically [via API](https://musicbrainz.org/doc/MusicBrainz_API), only non-commercial usage is free.
+It is completely free to look up any information using their website. However, if you want to access it programmatically [via API](https://musicbrainz.org/doc/MusicBrainz_API), only non-commercial usage is free.
 
 ## Disc ID
 
-Since I am focusing on Audio CDs, let's talk how to identify CDs. MusicBrainz uses TOC (Table of Contents) as a unique identifier. We need the following:
+Since I am focusing on Audio CDs, let's talk how to identify CDs. MusicBrainz uses TOC (Table of Contents) to calculate the (mostly) unique identifier. We need the following:
 
 - first track number (technically, not guaranteed to start with `1`) -- 1 byte
 - last track number (tracks can get up to #99) -- 1 byte
 - leadout LBA (**L**ogical/**L**inear **B**lock **A**ddress) + 150 frames/2 seconds (to account for 2-seconds pregap) -- 4 bytes
 - start LBA + 150 frames/2 seconds for each track from 1 to 99 (non-existing tracks use `0` instead) -- 4 bytes
 
-We construct the string and get SHA-1 hash of it (values are converted to uppercase hexadecimal ASCII) and then get base64 of it, but replace some symbols to avoid URL issues:
+We construct the string and get SHA-1 hash of it (values are converted to uppercase hexadecimal ASCII) and then encode it to base64, but replace [some symbols](https://musicbrainz.org/doc/Disc_ID_Calculation#Step_2:_Base64-encoding_of_the_hash) to avoid URL issues:
 
 > The specification uses `+`, `/`, and `=` characters, all of which are special HTTP/URL characters. To avoid the problems with dealing with that, MusicBrainz uses `.`, `_`, and `-` instead.
 
@@ -47,7 +47,7 @@ pub fn calculate_music_brainz_id(toc: &Toc) -> String {
 
     let base64_result = general_purpose::STANDARD.encode(hash_result);
 
-    // Convert to MusicBrainz format: replace + with . and / with _, remove padding
+    // Convert to MusicBrainz format: replace "+" with ".", "/" with "_" and "=" with "-"
     base64_result
         .replace('+', ".")
         .replace('/', "_")
@@ -109,7 +109,7 @@ type MusicBrainzResponse = {
             back: boolean
         }
         media?: {
-            pub format?: string // "CD", etc.
+            format?: string // "CD", etc.
             position?: number
             "track-count"?: number
             tracks?: {
