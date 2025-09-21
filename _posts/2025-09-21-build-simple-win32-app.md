@@ -22,7 +22,7 @@ At this point, Win32 and WinRT APIs coexist.
 
 ## Win32 UI controls
 
-Win32 UI controls are very old and are pretty much never used directly for decades at this point. They are still available, and if you find an application old enough, it can use them directly. Here is an example of an application I developed using them:
+Win32 UI controls are very old and are pretty much never used directly for decades at this point. They are still available, and if you find an application old enough, it can use them directly. Here is an example of an [application](https://github.com/Bloomca/win32-pomodoro-timer) I developed using them:
 
 <p class="centred-image full-image">
   <img class="image" src="/assets/img/win32_screenshot.jpg" />
@@ -140,3 +140,5 @@ If you want to learn more, you can try the following tutorials, which should be 
 - [Official MS Win32 C++ tutorial](https://learn.microsoft.com/en-us/windows/win32/learnwin32/learn-to-program-for-windows)
 - [theForger's Win32 API Tutorial](https://winprog.org/tutorial/)
 - [ZetCode's Windows API tutorial](https://zetcode.com/gui/winapi/)
+
+You can also check the source code for the pomodoro timer application [here](https://github.com/Bloomca/win32-pomodoro-timer).
