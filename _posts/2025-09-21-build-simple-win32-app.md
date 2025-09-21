@@ -5,7 +5,7 @@ keywords: Win32, Windows app development, windows.h, low-level app development, 
 excerpt: "It is pretty simple to develop a small Win32 application, but is not super useful."
 ---
 
-I've been on a quest to get down from Electron's abstraction layers to go as low as (reasonably) possible, and on Windows it ends with [Win32](https://learn.microsoft.com/en-us/windows/win32/). It is a very old API which is still fully functional; in fact, most applications are still Win32 applications, and it will continue to do so.
+I've been on a quest to get down from Electron's abstraction layers to go as low as (reasonably) possible, and on Windows it ends with [Win32](https://learn.microsoft.com/en-us/windows/win32/). It is a very old API which is still fully functional; in fact, most applications are still Win32 applications, and it will likely continue to be this way.
 
 ## What is Win32
 
